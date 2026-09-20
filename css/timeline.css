@@ -1,0 +1,245 @@
+/* ---------------- scrollytelling timeline ---------------- */
+
+.timeline-segment {
+  position: relative;
+  scroll-snap-align: start;
+  /* actual height set inline by js/timeline.js, based on event count */
+}
+
+.timeline-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  overflow: hidden;
+  /* left padding is a fixed 40px to match .pagenav-wrap's fixed 40px
+     `right` — the distance from the left edge to this stick equals the
+     distance from the right edge to the nav stick, at any screen width */
+  padding: 0 6vw 0 40px;
+}
+
+/* just the spine + its date-range labels now (the separate bracket column
+   was folded directly onto the spine) — much narrower than the old 16.6% */
+.timeline-rail {
+  flex: 0 0 90px;
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  /* same 40px top/bottom margin as .pagenav-wrap, so this stick's start
+     and end tips land at exactly the same screen height as the page
+     nav's — the page nav's own tips are the fixed reference, unchanged */
+  margin: 40px 0;
+}
+
+/* stick: the live spine every event sits on — also the drag/progress bar
+   itself (the separate amber track was made redundant by this), and now
+   also carries each date range's label directly (no separate column) */
+.timeline-spine-col {
+  flex: 0 0 4px;
+  /* the old bracket-date used to overhang left of the spine and needed
+     room reserved for it; the new year markers sit to the spine's right
+     (like events do), so the spine now sits flush at the rail's edge */
+  margin-left: 0;
+  margin-right: 12px;
+  position: relative;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 2px;
+  cursor: grab;
+  touch-action: none; /* we handle the drag ourselves, don't let it scroll the page too */
+}
+
+/* one year per TIMELINE group, infused as its own stop in the same
+   vertical sequence as the events (js/timeline.js sets `top`) — sits at
+   the same left offset as an event's own label, just without a dot */
+.timeline-year-marker {
+  position: absolute;
+  left: 12px;
+  transform: translateY(-50%);
+  font-size: var(--fs-small);
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  color: rgba(255, 255, 255, 0.5);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.timeline-spine-col:active {
+  cursor: grabbing;
+}
+
+.timeline-spine-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  background: var(--amber);
+  border-radius: 2px;
+  pointer-events: none; /* drag is handled by the spine column itself */
+}
+
+.timeline-event {
+  position: absolute;
+  left: 12px;
+  /* top is a fixed per-event % set once in js/timeline.js (evenly spread
+     top-to-bottom, tips left bare above/below); only the translateY(-50%)
+     centering + scale below are touched every frame */
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transform-origin: left center;
+}
+
+.timeline-event.clickable {
+  cursor: pointer;
+}
+
+.timeline-event-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  flex: 0 0 auto;
+}
+
+.timeline-event.selected .timeline-event-dot {
+  background: #ffffff;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+}
+
+/* one word per line, same treatment as .pagenav-label */
+.timeline-event-label {
+  display: flex;
+  flex-direction: column;
+  font-size: var(--fs-small);
+  font-weight: 400;
+  line-height: 1.3;
+  color: rgba(255, 255, 255, 0.4);
+  white-space: nowrap;
+}
+
+.timeline-event.selected .timeline-event-label {
+  color: #ffffff;
+  font-weight: 400;
+}
+
+.timeline-progress-track {
+  flex: 0 0 4px; /* halved per request; event spine below matches this thickness */
+  margin-left: 14px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+  cursor: grab;
+  touch-action: none; /* we handle the drag ourselves, don't let it scroll the page too */
+}
+
+.timeline-progress-track:active {
+  cursor: grabbing;
+}
+
+.timeline-progress-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  background: var(--amber);
+  border-radius: 2px;
+}
+
+/* the dominant section: ~5/6 of the width, stacked image cards */
+.timeline-image-stage {
+  flex: 1 1 auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.timeline-card {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(60%, 420px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+/* the text-only intro card has no image to size around, so it uses most
+   of the room between the two side sticks instead of the narrower
+   image-card width — min() keeps it responsive at any screen size */
+.timeline-intro-card {
+  width: min(88%, 900px);
+}
+
+.timeline-card-frame {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+.timeline-card-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.timeline-card-description {
+  max-width: 100%;
+  text-align: center;
+  font-size: var(--fs-body);
+  font-weight: 300;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 0;
+}
+
+/* text-only intro card (js/timeline.js) standing in for "Social Work"'s
+   not-yet-added image — same size/weight as the hero page's own text
+   stack (.hero-intro p) */
+.timeline-intro-line {
+  max-width: 100%;
+  text-align: center;
+  /* scales with viewport width instead of a fixed 40px, so it never
+     overflows/overlaps the side sticks on narrow screens */
+  font-size: clamp(20px, 4vw, 40px);
+  font-weight: 300;
+  line-height: 1.3;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0;
+}
+
+
+/* Memory Lane only — js/timeline.js toggles "visible" while a photo event is
+   current. Sits just above .music-control, in front of everything below
+   the lightbox. */
+.timeline-credits-note {
+  position: fixed;
+  bottom: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 6;
+  margin: 0;
+  max-width: 90vw;
+  text-align: center;
+  white-space: nowrap;
+  font-size: var(--fs-body); /* same size as the gallery captions */
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.timeline-credits-note.visible {
+  opacity: 1;
+}
+
+@media (max-width: 820px) {
+  .timeline-credits-note {
+    white-space: normal;
+    max-width: 92vw;
+  }
+}
