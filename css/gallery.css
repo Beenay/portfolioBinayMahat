@@ -1,0 +1,158 @@
+/* gallery card for a whole photo segment (e.g. "Social Work"). Desktop:
+   every photo shown at once, 2 columns, alternating columns read
+   caption-above-photo instead of photo-above-caption (the zigzag).
+   Mobile: a horizontally draggable strip with a "scroll for more" arrow
+   — same mechanic as the hero page's marquees (js/marquee.js), see the
+   mobile override further down. */
+.timeline-gallery-card {
+  display: flex;
+  /* .timeline-card (base) sets flex-direction:column — override to a row
+     so the track and the mobile arrow sit side by side */
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  width: min(90%, 900px);
+}
+
+.timeline-gallery-track {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 32px;
+  flex: 1 1 auto;
+  align-items: start;
+  min-width: 0;
+}
+
+.timeline-gallery-item {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* the zigzag swaps caption/photo order via `order` on these two direct
+   children — not flex-direction:column-reverse on the whole item — so the
+   "Open Image" row (inside .timeline-gallery-photo) always stays directly
+   above its own frame regardless of which side of the caption it lands on */
+.timeline-gallery-photo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  order: 1;
+}
+
+.timeline-gallery-caption {
+  order: 2;
+}
+
+.timeline-gallery-item-alt .timeline-gallery-photo {
+  order: 2;
+}
+
+.timeline-gallery-item-alt .timeline-gallery-caption {
+  order: 1;
+}
+
+/* full image, never cropped — letterboxed inside a fixed-size frame
+   instead of object-fit:cover cutting off part of the photo */
+.timeline-gallery-frame {
+  width: 100%;
+  height: 260px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer; /* opens the full-size lightbox on click */
+}
+
+/* simple text call-to-action — its own row above the photo, not an
+   overlay on top of it */
+.timeline-gallery-open-label {
+  font-size: var(--fs-small);
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  color: var(--amber);
+}
+
+.timeline-gallery-frame img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+/* a dedicated, fixed-size caption area — text beyond it is clipped with
+   an ellipsis, and the full caption only shows in the shared marquee
+   hover/click tooltip (js/marquee.js) */
+.timeline-gallery-caption {
+  margin: 0;
+  min-height: calc(var(--fs-body) * 1.6 * 3);
+  font-size: var(--fs-body);
+  font-weight: 300;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.75);
+  cursor: pointer;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* prev/next — desktop shows every photo already, nothing to scroll to, so
+   these only appear on mobile (see the override below). is-hidden (not
+   display:none set inline) so the mobile override's own `display: flex`
+   doesn't need to fight an inline style — see js/timeline.js */
+.timeline-gallery-arrow-btn {
+  display: none;
+}
+
+.timeline-gallery-arrow-btn.is-hidden {
+  visibility: hidden;
+}
+
+/* desktop paging: a gallery with more than 2 photos (js/timeline.js sets
+   has-paged-arrows) shows one pair at a time instead of stacking every
+   pair into extra grid rows, so the arrows are enabled here too — a plain
+   2-photo gallery (e.g. Social Work) never gets this class and keeps
+   showing both photos at once with no arrows, unchanged. */
+@media (min-width: 821px) {
+  .timeline-gallery-card.has-paged-arrows .timeline-gallery-arrow-btn {
+    display: flex;
+  }
+  .timeline-gallery-item.is-desktop-hidden {
+    display: none;
+  }
+}
+
+/* notification-style counter on the desktop "next" arrow — how many
+   photos are still hidden past the current slide. Only that one arrow
+   needs position:relative for this to anchor to (js/timeline.js only
+   ever appends it there); hidden by default, shown via .visible so it
+   never renders as an empty "0" circle while photos remain uncounted. */
+.timeline-gallery-arrow-next {
+  position: relative;
+}
+
+.timeline-gallery-badge {
+  display: none;
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  border-radius: 999px;
+  background: var(--amber);
+  color: #412402;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 18px;
+  text-align: center;
+}
+
+.timeline-gallery-badge.visible {
+  display: block;
+}

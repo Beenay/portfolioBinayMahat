@@ -1,0 +1,62 @@
+/* ---------------- scroll container / segments ---------------- */
+
+.scroller {
+  position: relative;
+  z-index: 1;
+  height: 100vh;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+
+.segment {
+  height: 100vh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 5vh 6vw;
+}
+
+.segment .content {
+  width: 100%;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.segment .content.in-view {
+  opacity: 1;
+}
+
+/* the Home page is what's on screen at load, so it starts visible instead of
+   waiting for the script's fade-in (which would delay first paint) */
+#segment-hero .content {
+  opacity: 1;
+}
+
+/* ---------------- placeholder stops (Products/Awards content TBD) ---------------- */
+
+.placeholder-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.placeholder-content h2 {
+  font-size: var(--fs-tagline);
+  font-weight: 400;
+  letter-spacing: 2px;
+  color: #ffffff;
+  margin: 0;
+}
+
+.placeholder-content p {
+  font-size: var(--fs-body);
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+}

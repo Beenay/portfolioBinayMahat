@@ -1,0 +1,9 @@
+<svg width="1200" height="850" viewBox="0 0 1200 850" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="850" fill="#1c2032"/>
+  <rect x="0" y="0" width="10" height="850" fill="#e0a83e"/>
+  <text x="80" y="323" font-family="Helvetica, Arial, sans-serif" font-size="54" font-weight="700" fill="#e0a83e">
+    <tspan x="80" dy="0">Growth strategy with a</tspan>
+    <tspan x="80" dy="68">$10,000 per month</tspan>
+    <tspan x="80" dy="68">Google Ad Grant</tspan>
+  </text>
+</svg>

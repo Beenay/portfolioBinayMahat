@@ -1,0 +1,16 @@
+/* General Sans (Fontshare, free), self-hosted so first paint doesn't wait on a
+   third-party stylesheet. Only the two weights the site uses (300, 400). */
+@font-face {
+  font-family: "General Sans";
+  src: url("../assets/fonts/general-sans-300.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "General Sans";
+  src: url("../assets/fonts/general-sans-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}

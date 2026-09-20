@@ -1,0 +1,10 @@
+<svg width="1200" height="850" viewBox="0 0 1200 850" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="850" fill="#1c2032"/>
+  <rect x="0" y="0" width="10" height="850" fill="#e0a83e"/>
+  <text x="80" y="380" font-family="Helvetica, Arial, sans-serif" font-size="54" font-weight="700" fill="#e0a83e">
+    <tspan x="80" dy="0">Local automation</tspan>
+    <tspan x="80" dy="66">and migration scripts</tspan>
+    <tspan x="80" dy="66">to assist fleet</tspan>
+    <tspan x="80" dy="66">acquisition</tspan>
+  </text>
+</svg>

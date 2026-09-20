@@ -1,0 +1,13 @@
+{
+  "name": "Binay Mahat, Product Owner",
+  "short_name": "Binay Mahat",
+  "description": "Binay Mahat is a Product Owner. Explore his career timeline.",
+  "start_url": "./",
+  "display": "browser",
+  "background_color": "#060714",
+  "theme_color": "#060714",
+  "icons": [
+    { "src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

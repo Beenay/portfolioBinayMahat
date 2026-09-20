@@ -1,0 +1,101 @@
+/* ---------------- right-edge page nav ---------------- */
+
+/* spans nearly the full viewport height (not a small centered box), so the
+   amber fill reads as a real whole-site progress bar */
+.pagenav-wrap {
+  position: fixed;
+  right: 40px;
+  top: 40px;
+  bottom: 40px;
+  z-index: 6;
+}
+
+.pagenav-stick {
+  position: relative;
+  width: 3px;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 2px;
+  cursor: grab;
+  touch-action: none; /* we handle the drag ourselves, same as the timeline spine */
+}
+
+.pagenav-stick:active {
+  cursor: grabbing;
+}
+
+.pagenav-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  background: var(--amber);
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+.pagenav-item {
+  position: absolute;
+  /* top is a fixed per-item % set once in js/pagenav.js (evenly spread
+     top-to-bottom); only the translateY(-50%) centering + scale below are
+     touched every frame */
+  right: 12px;
+  transform: translateY(-50%);
+  transform-origin: right center;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+/* one word per line, right-aligned toward the stick, at every screen size —
+   same --fs-small as every other secondary/meta label on the site */
+.pagenav-label {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0;
+  font-size: var(--fs-small);
+  line-height: 1.3;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.pagenav-item.selected .pagenav-label {
+  color: #ffffff;
+  font-weight: 400;
+}
+
+.pagenav-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  flex: 0 0 auto;
+}
+
+.pagenav-item.selected .pagenav-dot {
+  background: #ffffff;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+}
+
+@media (max-width: 820px) {
+  /* keeps the event stick's tips matching the page nav's tips at this
+     breakpoint too (page nav switches to 30px top/bottom here as well) */
+  .timeline-rail {
+    margin: 30px 0;
+  }
+  /* matches .pagenav-wrap's mobile `right: 16px` below */
+  .timeline-sticky {
+    padding-left: 16px;
+  }
+  .pagenav-wrap {
+    right: 16px;
+    top: 30px;
+    bottom: 30px;
+  }
+  .pagenav-item {
+    right: 5px;
+  }
+}
