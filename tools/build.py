@@ -22,7 +22,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # The live address of the site, with no trailing slash. While empty, the build
 # skips the tags and files that need an absolute address (canonical link,
 # og:url, og:image, twitter:image, sitemap.xml). Set it once and rebuild.
-SITE_URL = ""
+SITE_URL = "https://beenay.github.io/portfolioBinayMahat/"
 
 # order matters: later files may use names defined by earlier ones
 CSS = ["fonts", "base", "background", "layout", "hero", "lightbox", "music",

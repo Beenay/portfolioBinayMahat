@@ -18,6 +18,7 @@
   position: relative;
   width: 90vw;
   height: 90vh;
+  height: 90dvh;
   max-width: 720px;
   display: flex;
   flex-direction: column;

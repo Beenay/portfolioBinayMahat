@@ -2,8 +2,10 @@
 
 .scroller {
   position: relative;
-  z-index: 1;
+  /* no z-index on purpose: it must not form its own layer, so the page nav
+     (z 3) and the Memory Lane layer (z 4) can be ordered against each other */
   height: 100vh;
+  height: 100dvh; /* visible area on phones (100vh runs under the browser toolbar) */
   overflow-y: scroll;
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
@@ -11,6 +13,7 @@
 
 .segment {
   height: 100vh;
+  height: 100dvh; /* visible area on phones (100vh runs under the browser toolbar) */
   scroll-snap-align: start;
   scroll-snap-stop: always;
   display: flex;

@@ -4,6 +4,14 @@
   /* gallery card becomes a horizontally draggable strip, same mechanic
      (and the same .marquee-arrow button) as the hero page's marquees,
      instead of the desktop's static 2-column zigzag grid */
+  /* on narrow screens the spine and page-nav labels sit under the photos and
+     text, so those get a dark backing that hides whatever is behind them */
+  .timeline-gallery-card,
+  .timeline-intro-card {
+    background: rgba(6, 7, 20, 0.92);
+    border-radius: 18px;
+    padding: 14px 10px;
+  }
   .timeline-gallery-card {
     width: min(96%, 480px);
   }
@@ -53,6 +61,7 @@
   .segment {
     height: auto;
     min-height: 100vh;
+    min-height: 100dvh;
     padding: 8vh 6vw;
   }
   /* hero stays left-aligned on mobile too, just stacked: photo+name first,

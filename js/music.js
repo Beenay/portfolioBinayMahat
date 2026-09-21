@@ -1,4 +1,5 @@
-// Background music: a hidden YouTube-embedded player synced to the ship.
+// Background music: a hidden YouTube-embedded player, started and paused with
+// the play button (browsers do not allow sound to start on its own).
 //
 // TODO: swap this for the actual video ID of the copyright-free track you
 // pick — it's the part of the YouTube URL after "v=" (e.g. for
@@ -8,9 +9,6 @@ const YOUTUBE_VIDEO_ID = "gCWaRhNUvfc";
 
 let ytPlayer = null;
 let playerReady = false;
-let userPaused = false; // once the user pauses manually, ship movement no
-                         // longer auto-resumes it — matches the ask exactly
-let hasAutoStarted = false;
 let playWhenReady = false; // play button pressed before the player finished loading
 let currentVolume = 50; // 0-100, kept even before the player is ready so the
                          // dial can be dragged immediately and synced on load
@@ -61,8 +59,8 @@ function initMusicPlayer() {
 
   // The YouTube player is a heavy third-party download, so it only starts
   // loading on the visitor's first interaction (scroll, tap, key) instead
-  // of blocking the page load. Music still auto-starts once the ship first
-  // moves, and the play button works straight away (it waits for the player).
+  // of blocking the page load. The play button works straight away (it waits
+  // for the player to finish loading).
   let playerRequested = false;
   function requestPlayer() {
     if (playerRequested) return;
@@ -80,17 +78,14 @@ function initMusicPlayer() {
   button.addEventListener("click", () => {
     if (!playerReady) {
       // not loaded yet: start loading and play the moment it's ready
-      userPaused = false;
       playWhenReady = true;
       requestPlayer();
       return;
     }
     if (ytPlayer.getPlayerState() === YT.PlayerState.PLAYING) {
       ytPlayer.pauseVideo();
-      userPaused = true;
     } else {
       ytPlayer.playVideo();
-      userPaused = false;
     }
   });
 
@@ -166,15 +161,5 @@ function wireVolumeDial() {
 
   render(currentVolume);
 }
-
-// Called continuously while the ship is actually moving (see js/main.js).
-// Only takes action the first time it sees real movement, and never
-// overrides a manual pause.
-function notifyShipMoved() {
-  if (!playerReady || userPaused || hasAutoStarted) return;
-  hasAutoStarted = true;
-  ytPlayer.playVideo();
-}
-window.notifyShipMoved = notifyShipMoved;
 
 initMusicPlayer();

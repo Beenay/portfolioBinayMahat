@@ -201,6 +201,7 @@ function buildTimeline() {
         `translate(-50%, -50%) translateY(${dist * CARD_STEP}px) scale(${cardScale})`;
       cardEls[i].style.opacity = proximity.toFixed(2);
       cardEls[i].style.zIndex = String(Math.round(proximity * 100));
+      cardEls[i].style.pointerEvents = proximity > 0.5 ? "auto" : "none";
     });
 
     // rawIndex clamps to the last stop once scrolled past the section, so
@@ -249,7 +250,7 @@ function buildTimeline() {
   // ---- turn a target combined-stop index (0..stops.length-1, fractional
   // ok) into the real scrollTop that produces it — dragging/clicking moves
   // the actual page scroll, never a separate local state, so this stays
-  // the single source of truth everything else (including the ship) reads
+  // the single source of truth everything else reads
   // too ----
   function indexToScrollTop(index) {
     const progress = stops.length > 1
