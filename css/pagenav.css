@@ -7,7 +7,8 @@
   right: 40px;
   top: 40px;
   bottom: 40px;
-  z-index: 6;
+  /* below the Memory Lane layer (z 4) so photos cover it there */
+  z-index: 3;
 }
 
 .pagenav-stick {

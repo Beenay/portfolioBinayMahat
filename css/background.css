@@ -1,4 +1,4 @@
-/* ---------------- fixed background: stars, nebula, ship ---------------- */
+/* ---------------- fixed background: stars, nebula ---------------- */
 
 .space-bg {
   position: fixed;
@@ -30,75 +30,6 @@
 @keyframes twinkle {
   0%, 100% { opacity: 0.12; }
   50% { opacity: 0.6; }
-}
-
-.ship-wrap {
-  display: none; /* hidden until the "showShip" button adds body.show-ship */
-  position: fixed;
-  /* above page content (.scroller is z-index:1) so it renders in front of
-     things like the timeline's amber spine instead of behind them — but
-     still below the lightbox (z-index:50), which should stay on top of it */
-  z-index: 5;
-  /* top/left/opacity/transform all overwritten inline by js/main.js, tied to
-     scroll position as the ship laps the four edges of the screen */
-  top: 8%;
-  left: 72%;
-  /* scales with viewport so it stays a corner accent on small screens and
-     never balloons past a sane size on huge ones */
-  width: clamp(90px, 11vw, 220px);
-  opacity: 1;
-  transform: rotate(-90deg);
-  transform-origin: center;
-  transition: top 0.15s linear, left 0.15s linear, opacity 0.4s ease, transform 0.3s ease;
-  filter: drop-shadow(0 0 14px rgba(195, 217, 74, 0.25));
-}
-
-body.show-ship .ship-wrap {
-  display: block;
-}
-
-/* small text-only toggle, fixed top-centre so it's on every page (js/main.js) */
-.ship-toggle {
-  position: fixed;
-  top: 1.5vh;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 6;
-  background: none;
-  border: 0;
-  padding: 0;
-  font: inherit;
-  font-size: var(--fs-small);
-  font-weight: 400;
-  letter-spacing: 0.5px;
-  color: var(--amber);
-  cursor: pointer;
-}
-
-.ship-wrap svg {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
-.ship-flame {
-  transform-origin: right center;
-  /* on at rest, but small — a pilot light rather than fully off */
-  transform: scaleX(1);
-  opacity: 0.5;
-  transition: transform 0.35s ease-out, opacity 0.35s ease-out;
-}
-
-/* full travel between stops: flame grows to 3x its resting size */
-body.boosting .ship-flame {
-  transform: scaleX(3);
-  opacity: 1;
-}
-
-/* extra "Tesla launch mode" style kick partway through each leg */
-body.boosting-surge .ship-flame {
-  transform: scaleX(4);
-  opacity: 1;
 }
 
 /* ---------------- shooting stars ---------------- */

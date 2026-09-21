@@ -10,25 +10,31 @@
   position: sticky;
   top: 0;
   height: 100vh;
-  display: flex;
+  height: 100dvh; /* visible area on phones, so captions are not under the browser toolbar */
   overflow: hidden;
-  /* left padding is a fixed 40px to match .pagenav-wrap's fixed 40px
-     `right` — the distance from the left edge to this stick equals the
-     distance from the right edge to the nav stick, at any screen width */
-  padding: 0 6vw 0 40px;
+  /* This layer sits above the page nav (z 3) so photos and text can cover it,
+     but it lets clicks and scrolls pass through its empty parts: only the
+     spine (.timeline-rail) and the current card take pointer events. */
+  z-index: 4;
+  pointer-events: none;
 }
 
-/* just the spine + its date-range labels now (the separate bracket column
-   was folded directly onto the spine) — much narrower than the old 16.6% */
+/* just the spine + its date-range labels (the separate bracket column was
+   folded directly onto the spine). It is pinned to the left and sits BEHIND
+   the stage, so its labels never push the photos off-centre. */
 .timeline-rail {
-  flex: 0 0 90px;
-  position: relative;
-  display: flex;
-  align-items: stretch;
-  /* same 40px top/bottom margin as .pagenav-wrap, so this stick's start
+  position: absolute;
+  /* same 40px left/top/bottom margin as .pagenav-wrap, so this stick's start
      and end tips land at exactly the same screen height as the page
      nav's — the page nav's own tips are the fixed reference, unchanged */
-  margin: 40px 0;
+  left: 40px;
+  top: 40px;
+  bottom: 40px;
+  width: 90px;
+  z-index: 1;
+  display: flex;
+  align-items: stretch;
+  pointer-events: auto;
 }
 
 /* stick: the live spine every event sits on — also the drag/progress bar
@@ -147,11 +153,15 @@
   border-radius: 2px;
 }
 
-/* the dominant section: ~5/6 of the width, stacked image cards */
+/* the photos and text: spans the WHOLE page (not the space left between the
+   two sticks), so cards are centred on the page at any width, with the
+   spine and page nav layered behind them */
 .timeline-image-stage {
-  flex: 1 1 auto;
-  position: relative;
+  position: absolute;
+  inset: 0;
+  z-index: 2;
   overflow: hidden;
+  pointer-events: none;
 }
 
 .timeline-card {
@@ -163,13 +173,16 @@
   flex-direction: column;
   align-items: center;
   gap: 16px;
+  /* only the current card takes clicks (js/timeline.js); faded-out cards
+     must not block the spine or nav behind them */
+  pointer-events: none;
 }
 
-/* the text-only intro card has no image to size around, so it uses most
-   of the room between the two side sticks instead of the narrower
-   image-card width — min() keeps it responsive at any screen size */
+/* the text-only intro card has no image to size around, so it uses most of
+   the page width instead of the narrower image-card width — min() keeps it
+   responsive, and 72% leaves room for the spine labels on the left */
 .timeline-intro-card {
-  width: min(88%, 900px);
+  width: min(72%, 900px);
 }
 
 .timeline-card-frame {
